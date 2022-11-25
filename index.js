@@ -19,23 +19,48 @@ app.get('/', (req, res) => {
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@assignment-12.eafhkau.mongodb.net/?retryWrites=true&w=majority`;
-console.log(uri);
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 
 async function run() {
 
-    const serviceCollection = client.db('furniture').collection('categories');
+    const categoryCollection = client.db('furniture').collection('categories');
+    const productCollection = client.db('furniture').collection('products');
 
     try {
+
+        // Get Category=======================
         app.get('/categories', async (req, res) => {
             const query = {};
-            const cursor = serviceCollection.find(query);
+            const cursor = categoryCollection.find(query);
 
             const services = await cursor.toArray();
             res.send(services);
         });
+
+
+        // Get Products=======================
+        app.get('/categories/:category', async (req, res) => {
+            const category = req.params.category;
+            const query = { category: category };
+            const cursor = productCollection.find(query);
+
+            const products = await cursor.toArray();
+            res.send(products);
+        });
+
+
+
+
+
+        // // demo post=======================
+        // app.post('/products', async (req, res) => {
+        //     const purchase = req.body;
+        //     console.log(purchase);
+        //     const result = await productCollection.insertOne(purchase);
+        //     res.send(result);
+        // });
     }
 
     finally {
