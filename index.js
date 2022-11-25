@@ -71,16 +71,6 @@ async function run() {
 
 
 
-
-
-
-        // // demo post=======================
-        // app.post('/products', async (req, res) => {
-        //     const purchase = req.body;
-        //     console.log(purchase);
-        //     const result = await productCollection.insertOne(purchase);
-        //     res.send(result);
-        // });
     }
 
     finally {
