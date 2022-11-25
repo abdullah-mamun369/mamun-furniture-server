@@ -27,6 +27,7 @@ async function run() {
 
     const categoryCollection = client.db('furniture').collection('categories');
     const productCollection = client.db('furniture').collection('products');
+    const userCollection = client.db('furniture').collection('users');
 
     try {
 
@@ -49,6 +50,25 @@ async function run() {
             const products = await cursor.toArray();
             res.send(products);
         });
+
+
+        // Post Product
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await productCollection.insertOne(product);
+            res.send(result);
+        });
+
+
+        // Post User
+        app.post('/users', async (req, res) => {
+            const product = req.body;
+            const result = await userCollection.insertOne(product);
+            res.send(result);
+        });
+
+
+
 
 
 
