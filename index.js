@@ -28,6 +28,7 @@ async function run() {
     const categoryCollection = client.db('furniture').collection('categories');
     const productCollection = client.db('furniture').collection('products');
     const userCollection = client.db('furniture').collection('users');
+    const bookingCollection = client.db('furniture').collection('mybooking');
 
     try {
 
@@ -64,6 +65,14 @@ async function run() {
         app.post('/users', async (req, res) => {
             const product = req.body;
             const result = await userCollection.insertOne(product);
+            res.send(result);
+        });
+
+
+        // Post My Booking
+        app.post('/mybooking', async (req, res) => {
+            const myBooking = req.body;
+            const result = await bookingCollection.insertOne(myBooking);
             res.send(result);
         });
 
