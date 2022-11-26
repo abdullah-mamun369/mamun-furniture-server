@@ -42,7 +42,7 @@ async function run() {
         });
 
 
-        // Get Products=======================
+        // Get Products by category=======================
         app.get('/categories/:category', async (req, res) => {
             const category = req.params.category;
             const query = { category: category };
@@ -76,6 +76,16 @@ async function run() {
             res.send(result);
         });
 
+
+        // Get Products by user (email)=======================
+        app.get('/products', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = productCollection.find(query);
+
+            const products = await cursor.toArray();
+            res.send(products);
+        });
 
 
 
