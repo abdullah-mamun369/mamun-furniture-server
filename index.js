@@ -107,6 +107,20 @@ async function run() {
         })
 
 
+        // Status Update for the my order page=================================
+        app.patch('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const status = req.body.status
+            const query = { _id: ObjectId(id) }
+            const updatedDoc = {
+                $set: {
+                    status: status
+                }
+            }
+            const result = await productCollection.updateOne(query, updatedDoc);
+            res.send(result);
+        })
+
 
 
     }
