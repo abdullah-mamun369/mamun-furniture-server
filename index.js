@@ -78,7 +78,7 @@ async function run() {
 
 
         // Get Products by user (email)=======================
-        app.get('/products', async (req, res) => {
+        app.get('/productsbyemail', async (req, res) => {
             const email = req.query.email;
             const query = { email: email };
             const cursor = productCollection.find(query);
@@ -86,6 +86,25 @@ async function run() {
             const products = await cursor.toArray();
             res.send(products);
         });
+
+
+        // // Get allsellers=======================
+        // app.get('/products', async (req, res) => {
+        //     const query = {};
+        //     const cursor = categoryCollection.find(query);
+
+        //     const services = await cursor.toArray();
+        //     res.send(services);
+        // });
+
+
+        // Review Delete=================================
+        app.delete('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productCollection.deleteOne(query);
+            res.send(result);
+        })
 
 
 
