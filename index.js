@@ -110,16 +110,35 @@ async function run() {
         // Status Update for the my order page=================================
         app.patch('/products/:id', async (req, res) => {
             const id = req.params.id;
-            const status = req.body.status
-            const query = { _id: ObjectId(id) }
-            const updatedDoc = {
+            const filter = { _id: ObjectId(id) };
+            const newStatus = req.body.status;
+            const updatedStatus = {
                 $set: {
-                    status: status
+                    status: newStatus,
                 }
             }
-            const result = await productCollection.updateOne(query, updatedDoc);
+            const result = await productCollection.updateOne(filter, updatedStatus);
             res.send(result);
         })
+
+
+
+        // PRODUCT ADVERTISEMENT status change
+        app.patch('/advertise/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const filter = { _id: ObjectId(id) };
+            const newStatus = req.body.adStatus;
+            console.log(newStatus);
+            const updatedStatus = {
+                $set: {
+                    adStatus: newStatus,
+                }
+            }
+            const result = await productCollection.updateOne(filter, updatedStatus);
+            res.send(result);
+        })
+
 
 
 
