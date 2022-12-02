@@ -99,7 +99,7 @@ async function run() {
         });
 
 
-        // Review Delete=================================
+        // Product Delete=================================
         app.delete('/products/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
@@ -157,6 +157,57 @@ async function run() {
             const productsFor = await productCollection.find(query).toArray();
             res.send(productsFor);
             console.log(productsFor);
+        })
+
+
+        // Get my bookings by user (email)=======================
+        app.get('/mybookings', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = bookingCollection.find(query);
+
+            const products = await cursor.toArray();
+            res.send(products);
+        });
+
+
+        // Bookings Delete=================================
+        app.delete('/mybookings/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await bookingCollection.deleteOne(query);
+            res.send(result);
+        })
+
+
+        //GET ALL PRODUCTS IN HOMEPAGE TO ADVERTISE
+        app.get('/users', async (req, res) => {
+            const role = req.query.role;
+            const query = { userRole: role }
+            // console.log(query);
+            const users = await userCollection.find(query).toArray();
+            res.send(users);
+            console.log(users);
+        })
+
+
+        //GET ALL PRODUCTS IN HOMEPAGE TO ADVERTISE
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email }
+            console.log(query);
+            const users = await userCollection.findOne(query);
+            console.log(users);
+            res.send(users);
+        })
+
+
+        // user Delete=================================
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await userCollection.deleteOne(query);
+            res.send(result);
         })
 
 
