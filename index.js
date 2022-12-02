@@ -4,6 +4,7 @@ require('dotenv').config();
 const app = express();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const { query } = require('express');
+// const jwt = require('jsonwebtoken');
 const port = process.env.port || 7000;
 
 
@@ -88,14 +89,14 @@ async function run() {
         });
 
 
-        // // Get allsellers=======================
-        // app.get('/products', async (req, res) => {
-        //     const query = {};
-        //     const cursor = categoryCollection.find(query);
+        // Get allsellers=======================
+        app.get('/products', async (req, res) => {
+            const query = {};
+            const cursor = productCollection.find(query);
 
-        //     const services = await cursor.toArray();
-        //     res.send(services);
-        // });
+            const products = await cursor.toArray();
+            res.send(products);
+        });
 
 
         // Review Delete=================================
@@ -123,7 +124,7 @@ async function run() {
 
 
 
-        // PRODUCT ADVERTISEMENT status change
+        // PRODUCT ADVERTISEMENT status change=======================
         app.patch('/advertise/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
@@ -137,6 +138,25 @@ async function run() {
             }
             const result = await productCollection.updateOne(filter, updatedStatus);
             res.send(result);
+        })
+
+
+        // Get Products by advertisement=======================
+        app.get('advertised', async (req, res) => {
+            const query = { adStatus: true, status: true };
+            const advertisedProduct = await productCollection.find(query).toArray();
+            res.send(advertisedProduct);
+        });
+
+
+        //GET ALL PRODUCTS IN HOMEPAGE TO ADVERTISE
+        app.get('/advertised', async (req, res) => {
+            const query = { adStatus: true, status: true }
+
+            console.log(query);
+            const productsFor = await productCollection.find(query).toArray();
+            res.send(productsFor);
+            console.log(productsFor);
         })
 
 
